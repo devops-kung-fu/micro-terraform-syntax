@@ -1,0 +1,36 @@
+filetype: terraform
+detect:
+    filename: "\\.tf[vars]?$"
+rules:
+    - special: "\\b(provider|module|resource|description|variable|output|data)\\b"
+    - type: "[-.\\w]+:"
+    - symbol.brackets: "[(){}]|\\[|\\]"
+    - symbol: "(\\||@|!|:|::|_|~|\\\\|;|\\(\\)|||\\[|\\]|\\{|\\})"
+    - symbol.operator: "(=|==|/=|&&|\\|\\||<|>|<=|>=)"
+    - constant.number: "\\b[-+]?([1-9][0-9]*|0[0-7]*|0x[0-9a-fA-F]+)([uU][lL]?|[lL][uU]?)?\\b"
+    - constant.number: "\\b[-+]?([0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+)([EePp][+-]?[0-9]+)?[fFlL]?"
+    - constant.number: "\\b[-+]?([0-9]+[EePp][+-]?[0-9]+)[fFlL]?"
+    - constant:  "\\b(YES|yes|Y|y|ON|on|TRUE|True|true|NO|no|N|n|OFF|off|FALSE|False|false)\\b"
+    - identifier: "[[:space:]][\\*&][A-Za-z0-9]+"
+    - constant.bool: "\\b(true|false)\\b"
+    - constant.string:
+        start: "\""
+        end: "\""
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    - constant.string:
+        start: "'"
+        end: "'"
+        skip: "\\\\."
+        rules:
+            - constant.specialChar: "\\\\."
+    - comment:
+        start: "\\(\\*"
+        end: "\\*\\)"
+        rules:
+            - todo: "(TODO|XXX|FIXME):?"
+    - comment:
+        start: "#"
+        end: "$"
+        rules: []
